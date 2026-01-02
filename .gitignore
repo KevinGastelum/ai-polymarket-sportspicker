@@ -41,3 +41,27 @@ venv.bak/
 logs/
 data/
 .opencode/
+
+# Artifacts (large data files)
+artifacts/
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+
+# ML Models (too large for git)
+models/
+*.joblib
+*.keras
+*.h5
+*.onnx
+*.pkl
+
+# Jupyter/Colab
+.ipynb_checkpoints/
+*.ipynb
+
+# Node modules (if using Next.js)
+node_modules/
+.next/
+out/
