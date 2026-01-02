@@ -1,242 +1,154 @@
-# 🪐 Google Antigravity Workspace Template
+# 🏆 AI PolyMarket Sports Picker
 
-**Production-grade starter kit for autonomous AI agents on Google Antigravity.**
+An ML-powered sports prediction platform that integrates with Polymarket betting markets. Uses three specialized models (Historical, Sentiment, Hybrid) to predict sports outcomes and track accuracy in real-time.
 
-Language: [English](/docs/en/) | [中文（仓库主页）](README_CN.md) | [中文文档](/docs/zh/) | [Español](/docs/es/)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python](https://img.shields.io/badge/python-3.10+-green.svg)
+![Status](https://img.shields.io/badge/status-in%20development-yellow.svg)
 
-![License](https://img.shields.io/badge/License-MIT-green)
-![Gemini](https://img.shields.io/badge/AI-Gemini_2.0_Flash-blue)
-![Architecture](https://img.shields.io/badge/Architecture-Event_Driven-purple)
-![Memory](https://img.shields.io/badge/Context-Infinite-orange)
+## 🎯 Features
 
-## 🌟 Project Intent
+- **Polymarket Integration** - Fetches live sports betting markets from Polymarket CLOB API
+- **3 ML Models** - Historical (XGBoost), Sentiment (Neural Network), Hybrid (Ensemble)
+- **Free Training** - Designed for Google Colab/Kaggle (no GPU costs)
+- **Real-time Tracking** - Logs predictions and tracks rolling accuracy via Supabase
+- **ESPN Data Pipeline** - Historical sports data from ESPN's free API
 
-In a world full of AI IDEs, I want enterprise-grade architecture to be as simple as **Clone → Rename → Prompt**.
+## 📊 Current Stats
 
-This project leverages IDE context awareness (via `.cursorrules` and `.antigravity/rules.md`) to pre-embed a complete **cognitive architecture** in the repo.
+| Metric | Value |
+|--------|-------|
+| Sports Markets Collected | 2,011 |
+| Training Examples | 1,812 |
+| Sports Covered | NBA, NFL, MLB, NHL, MMA, Soccer |
+| Date Range | June 2022 - September 2024 |
 
-When you open this project, your IDE stops being just an editor—it becomes an **industry-savvy architect**.
+## 🚀 Quick Start
 
-**First principles:**
-
-- Minimize repetition: the repo should encode defaults so setup is nearly zero.
-- Make intent explicit: capture architecture, context, and workflows in files, not tribal knowledge.
-- Treat the IDE as a teammate: contextual rules turn the editor into a proactive architect, not a passive tool.
-
-### Why do we need a thinking scaffold?
-
-While building with Google Antigravity or Cursor, I found a pain point:
-
-**The IDE and models are powerful, but the empty project is too weak.**
-
-Every new project repeats the same boring setup:
-
-- "Should my code live in `src` or `app`?"
-- "How do I define utilities so Gemini recognizes them?"
-- "How do I help the AI remember prior context?"
-
-This repetition wastes creative energy. My ideal workflow is: **after a git clone, the IDE already knows what to do.**
-
-So I built this project: **Antigravity Workspace Template**.
-
-## ⚡ Quick Start
-
-### Automated Installation (Recommended)
-
-**Linux / macOS:**
-```bash
-# 1. Clone the template
-git clone https://github.com/study8677/antigravity-workspace-template.git my-project
-cd my-project
-
-# 2. Run the installer
-chmod +x install.sh
-./install.sh
-
-# 3. Configure your API keys
-nano .env
-
-# 4. Run the agent
-source venv/bin/activate
-python src/agent.py
-```
-
-**Windows:**
-```cmd
-# 1. Clone the template
-git clone https://github.com/study8677/antigravity-workspace-template.git my-project
-cd my-project
-
-# 2. Run the installer
-install.bat
-
-# 3. Configure your API keys (notepad .env)
-
-# 4. Run the agent
-python src/agent.py
-```
-
-### Manual Installation
+### 1. Clone the Repository
 
 ```bash
-# 1. Clone the template
-git clone https://github.com/study8677/antigravity-workspace-template.git my-project
-cd my-project
-
-# 2. Create virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Configure your API keys
-cp .env.example .env  # (if available) or create .env manually
-nano .env
-
-# 5. Run the agent
-python src/agent.py
+git clone https://github.com/KevinGastelum/ai-polymarket-sportspicker.git
+cd ai-polymarket-sportspicker
 ```
 
-**That's it!** The IDE auto-loads configuration via `.cursorrules` + `.antigravity/rules.md`. You're ready to prompt.
+### 2. Install Dependencies
 
-## 🎯 What Is This?
-
-This is **not** another LangChain wrapper. It's a minimal, transparent workspace for building AI agents that:
-
-- 🧠 Have infinite memory (recursive summarization)
-- 🛠️ Auto-discover tools from `src/tools/`
-- 📚 Auto-inject context from `.context/`
-- 🔌 Connect to MCP servers seamlessly
-- 🤖 Coordinate multiple specialist agents
-- 📦 Save outputs as artifacts (plans, logs, evidence)
-
-**Clone → Rename → Prompt. That's the workflow.**
-
-## 🚀 Key Features
-
-| Feature | Description |
-|---------|-------------|
-| 🧠 **Infinite Memory** | Recursive summarization compresses context automatically |
-| 🛠️ **Universal Tools** | Drop Python functions in `src/tools/` → auto-discovered |
-| 📚 **Auto Context** | Add files to `.context/` → auto-injected into prompts |
-| 🔌 **MCP Support** | Connect GitHub, databases, filesystems, custom servers |
-| 🤖 **Swarm Agents** | Multi-agent orchestration with Router-Worker pattern |
-| ⚡ **Gemini Native** | Optimized for Gemini 2.0 Flash |
-| 🌐 **LLM Agnostic** | Use OpenAI, Azure, Ollama, or any OpenAI-compatible API |
-| 📂 **Artifact-First** | Every task produces plans, logs, and evidence |
-
-## 📚 Documentation
-
-**Full documentation available in `/docs/en/`:**
-
-- **[Quick Start](docs/en/QUICK_START.md)** — Installation & deployment
-- **[Philosophy](docs/en/PHILOSOPHY.md)** — Core concepts & architecture
-- **[Zero-Config](docs/en/ZERO_CONFIG.md)** — Auto tool & context loading
-- **[MCP Integration](docs/en/MCP_INTEGRATION.md)** — External tool connectivity
-- **[Swarm Protocol](docs/en/SWARM_PROTOCOL.md)** — Multi-agent coordination
-- **[Roadmap](docs/en/ROADMAP.md)** — Future phases & vision
-
-## 🏗️ Project Structure
-
-```
-src/
-├── agent.py           # Main agent loop
-├── memory.py          # JSON memory manager
-├── mcp_client.py      # MCP integration
-├── swarm.py           # Multi-agent orchestration
-├── agents/            # Specialist agents
-└── tools/             # Your custom tools
-
-.context/             # Knowledge base (auto-injected)
-.antigravity/         # Antigravity rules
-artifacts/            # Outputs & evidence
+```bash
+pip install requests pydantic python-dotenv
 ```
 
-## 💡 Example: Build a Tool in 30 Seconds
+### 3. Set Up Environment
 
-```python
-# src/tools/my_tool.py
-def analyze_sentiment(text: str) -> str:
-    """Analyzes the sentiment of given text."""
-    return "positive" if len(text) > 10 else "neutral"
+```bash
+cp .env.example .env
+# Edit .env with your Supabase credentials (optional for dev)
 ```
 
-**Restart agent.** Done! The tool is now available.
+### 4. Test the Data Pipeline
 
-## 🔌 MCP Integration
+```bash
+# Fetch Polymarket sports markets
+python src/tools/polymarket_client.py
 
-Connect to external tools:
+# Fetch sports data from ESPN
+python src/tools/sports_data.py
 
-```json
-{
-  "servers": [
-    {
-      "name": "github",
-      "transport": "stdio",
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "enabled": true
-    }
-  ]
-}
+# Process data for ML training
+python src/data/processor.py
 ```
 
-Agent automatically discovers and uses all MCP tools.
+## 🧠 ML Models
 
-## 🤖 Multi-Agent Swarm
+### Historical Model
+Uses team records, win percentages, and historical performance patterns.
+- **Algorithm**: XGBoost Classifier
+- **Training**: `notebooks/historical_model.py`
 
-Decompose complex tasks:
+### Sentiment Model  
+Uses market prices as a proxy for collective sentiment/confidence.
+- **Algorithm**: TensorFlow Neural Network
+- **Training**: `notebooks/sentiment_model.py`
 
-```python
-from src.swarm import SwarmOrchestrator
+### Hybrid Model
+Stacking ensemble that combines both models for optimal predictions.
+- **Algorithm**: Meta-learner (Logistic Regression)
+- **Training**: `notebooks/hybrid_model.py`
 
-swarm = SwarmOrchestrator()
-result = swarm.execute("Build and review a calculator")
+## 📁 Project Structure
+
+```
+ai-polymarket-sportspicker/
+├── src/
+│   ├── tools/
+│   │   ├── polymarket_client.py   # Polymarket CLOB API client
+│   │   ├── sports_data.py         # ESPN API integration
+│   │   └── supabase_client.py     # Database client
+│   └── data/
+│       └── processor.py           # Data processing pipeline
+├── notebooks/
+│   ├── data_prep.py               # Data preparation & EDA
+│   ├── historical_model.py        # XGBoost training
+│   ├── sentiment_model.py         # Neural network training
+│   └── hybrid_model.py            # Ensemble training
+├── supabase/
+│   ├── schema.sql                 # Database schema
+│   └── README.md                  # Setup guide
+├── .env.example                   # Environment variables template
+├── mission.md                     # Project mission & goals
+└── GEMINI.md                      # Development workflow guide
 ```
 
-The swarm automatically:
-- 📤 Routes to Coder, Reviewer, Researcher agents
-- 🧩 Synthesizes results
-- 📂 Saves artifacts
+## 🗄️ Database Setup (Supabase)
 
-## ✅ What's Complete
+1. Create a free account at [supabase.com](https://supabase.com)
+2. Create a new project
+3. Go to SQL Editor and run `supabase/schema.sql`
+4. Copy your API credentials to `.env`
 
-- ✅ Phase 1-7: Foundation, DevOps, Memory, Tools, Swarm, Discovery
-- ✅ Phase 8: MCP Integration (fully implemented)
-- 🚀 Phase 9: Enterprise Core (in progress)
+See [supabase/README.md](supabase/README.md) for detailed instructions.
 
-## 🆕 Recent Updates
+## 📓 Training on Google Colab
 
-- Added local OpenAI-compatible backend support (e.g., Ollama) when no Google API key is provided.
-- Fixed `.env` loading so runs from the `src/` folder still read the project-root config.
-- Default `.env` now points to local backend placeholders instead of a hardcoded Google key.
-- CLI entrypoints (`agent.py` and `src/agent.py`) now accept tasks via arguments or `AGENT_TASK`, instead of a fixed demo task.
+1. Upload notebooks to Google Colab
+2. Upload `artifacts/processed_data/` files or connect to Google Drive
+3. Run notebooks in order:
+   - `data_prep.py` → Feature engineering
+   - `historical_model.py` → Train XGBoost
+   - `sentiment_model.py` → Train Neural Network
+   - `hybrid_model.py` → Create ensemble
 
-See [Roadmap](docs/en/ROADMAP.md) for details.
+## 🔌 APIs Used
+
+| API | Purpose | Cost |
+|-----|---------|------|
+| [Polymarket CLOB](https://docs.polymarket.com/) | Betting markets | Free |
+| [ESPN](https://site.api.espn.com) | Sports data | Free |
+| [Ball Don't Lie](https://www.balldontlie.io/) | NBA stats | Free |
+| [Supabase](https://supabase.com) | Database | Free tier |
+
+## 🛣️ Roadmap
+
+- [x] Phase 1: Data Pipeline
+- [x] Phase 2: ML Training Notebooks
+- [x] Phase 3: Supabase Setup
+- [ ] Phase 4: Live Prediction System
+- [ ] Phase 5: Web Dashboard (Next.js)
+- [ ] Phase 6: Mobile App (React Native)
+- [ ] Phase 7: TikTok/Instagram Content
 
 ## 🤝 Contributing
 
-Ideas are contributions too! Open an [issue](https://github.com/study8677/antigravity-workspace-template/issues) to:
-- Report bugs
-- Suggest features
-- Propose architecture (Phase 9)
-
-Or submit a PR to improve docs or code.
-
-## 👥 Contributors
-
-- [@devalexanderdaza](https://github.com/devalexanderdaza) — First contributor. Implemented demo tools, enhanced agent functionality, proposed the "Agent OS" roadmap, and completed MCP integration.
-- [@Subham-KRLX](https://github.com/Subham-KRLX) — Added dynamic tools and context loading (Fixes #4) and the multi-agent cluster protocol (Fixes #6).
-
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=study8677/antigravity-workspace-template&type=Date)](https://star-history.com/#study8677/antigravity-workspace-template&Date)
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-MIT License. See [LICENSE](LICENSE) for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## ⚠️ Disclaimer
+
+This project is for educational purposes only. Sports betting involves risk. Always gamble responsibly and be aware of the laws in your jurisdiction.
 
 ---
 
-**[Explore Full Documentation →](docs/en/)**
+**Built with ❤️ by [Kevin Gastelum](https://github.com/KevinGastelum)**
