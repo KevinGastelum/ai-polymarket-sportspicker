@@ -175,6 +175,61 @@
   justify-content: space-between;
 }
 
+/* Filter Grid */
+.filterGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.filterBtn {
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filterBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.filterActive {
+  background: var(--neon-lime);
+  color: black;
+  border-color: var(--neon-lime);
+  box-shadow: 0 0 12px rgba(204, 255, 0, 0.3);
+}
+
+/* Market Count Badge */
+.marketCount {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+/* Loading & Error States */
+.loadingState, .errorState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.errorState {
+  color: var(--neon-pink);
+}
+
 .cardHeader {
   display: flex;
   align-items: center;
