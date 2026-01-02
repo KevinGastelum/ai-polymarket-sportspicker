@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { useState } from "react";
 import "./globals.css";
 import styles from "./layout.module.css";
 
@@ -37,6 +37,19 @@ const Icons = {
       <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
     </svg>
   ),
+  Menu: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  ),
+  Close: () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  ),
 };
 
 export default function RootLayout({
@@ -44,16 +57,32 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <html lang="en">
-      <body className={styles.body}>
+    <html lang="en" suppressHydrationWarning>
+      <body className={styles.body} suppressHydrationWarning>
+        {/* Mobile Overlay */}
+        {sidebarOpen && (
+          <div 
+            className={styles.overlay} 
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
         {/* Sidebar */}
-        <aside className={styles.sidebar}>
-          <div className={styles.logoContainer}>
-            <span className={styles.logoIcon}>⚡</span>
-            <span className={styles.logoText}>PolyPick</span>
+        <aside className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
+          <div className={styles.sidebarHeader}>
+            <div className={styles.logoContainer}>
+              <span className={styles.logoIcon}>⚡</span>
+              <span className={styles.logoText}>PolyPick</span>
+            </div>
+            <button 
+              className={styles.closeBtn}
+              onClick={() => setSidebarOpen(false)}
+            >
+              <Icons.Close />
+            </button>
           </div>
 
           <nav className={styles.nav}>
@@ -88,17 +117,25 @@ export default function RootLayout({
         <div className={styles.mainWrapper}>
           {/* Header */}
           <header className={styles.header}>
+            <button 
+              className={styles.menuBtn}
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Icons.Menu />
+            </button>
+
             <div className={styles.searchBar}>
               <Icons.Search />
-              <input type="text" placeholder="Search markets, teams..." />
+              <input type="text" placeholder="Search markets..." />
             </div>
             
             <div className={styles.headerActions}>
-              <button className="btn-glass">
-                <span style={{ fontSize: '1.2rem' }}>🔔</span>
+              <button className={`btn-glass ${styles.notificationBtn}`}>
+                <span>🔔</span>
               </button>
-              <button className="btn-neon">
-                <span>+ Deposit</span>
+              <button className={`btn-neon ${styles.depositBtn}`}>
+                <span className={styles.depositText}>+ Deposit</span>
+                <span className={styles.depositIcon}>+</span>
               </button>
             </div>
           </header>
@@ -108,6 +145,26 @@ export default function RootLayout({
             {children}
           </main>
         </div>
+
+        {/* Mobile Bottom Navigation */}
+        <nav className={styles.mobileNav}>
+          <a href="#" className={`${styles.mobileNavItem} ${styles.active}`}>
+            <Icons.Dashboard />
+            <span>Home</span>
+          </a>
+          <a href="#predictions" className={styles.mobileNavItem}>
+            <Icons.Predictions />
+            <span>Markets</span>
+          </a>
+          <a href="#wallet" className={styles.mobileNavItem}>
+            <Icons.Wallet />
+            <span>Portfolio</span>
+          </a>
+          <a href="#settings" className={styles.mobileNavItem}>
+            <Icons.Settings />
+            <span>Settings</span>
+          </a>
+        </nav>
       </body>
     </html>
   );

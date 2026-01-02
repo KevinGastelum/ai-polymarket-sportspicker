@@ -66,12 +66,41 @@ export default function Dashboard() {
           </div>
         </div>
         
-        {/* Placeholder for Map Visualization */}
+        {/* World Map Visualization */}
         <div className={styles.mapContainer}>
-          <div className={styles.mapGridLines}></div>
-          <div className={styles.mapDot} style={{top: '40%', left: '20%'}}></div>
-          <div className={styles.mapDot} style={{top: '35%', left: '70%'}}></div>
-          <div className={styles.mapDot} style={{top: '60%', left: '80%'}}></div>
+          {/* SVG World Map Outline */}
+          <svg className={styles.worldMap} viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice">
+            {/* Simplified world continents */}
+            <path 
+              className={styles.continent}
+              d="M150,200 Q200,180 250,200 L280,220 Q300,250 280,280 L200,300 Q150,280 150,200Z
+                 M350,180 L450,160 Q500,180 520,220 L540,280 Q520,320 480,340 L400,360 Q350,340 340,280 L350,180Z
+                 M580,140 Q650,120 720,140 L800,180 Q850,220 840,280 L800,340 Q750,380 680,360 L600,320 Q560,280 560,220 L580,140Z
+                 M900,200 Q950,180 1000,200 L1050,240 Q1080,280 1060,320 L1000,360 Q950,380 900,360 L860,320 Q840,280 860,240 L900,200Z
+                 M200,380 Q250,360 300,380 L340,420 Q360,460 340,500 L280,520 Q230,500 220,460 L200,380Z
+                 M700,400 Q750,380 800,400 L840,440 Q860,480 840,520 L780,540 Q730,520 720,480 L700,400Z"
+              fill="none"
+              stroke="rgba(255,255,255,0.1)"
+              strokeWidth="1"
+            />
+            {/* Grid lines */}
+            <g stroke="rgba(255,255,255,0.03)" strokeWidth="0.5">
+              {[...Array(12)].map((_, i) => (
+                <line key={`h${i}`} x1="0" y1={i * 50} x2="1200" y2={i * 50} />
+              ))}
+              {[...Array(24)].map((_, i) => (
+                <line key={`v${i}`} x1={i * 50} y1="0" x2={i * 50} y2="600" />
+              ))}
+            </g>
+          </svg>
+          
+          {/* Glowing activity dots */}
+          <div className={styles.mapDot} style={{top: '35%', left: '15%'}}><span>NBA</span></div>
+          <div className={styles.mapDot} style={{top: '40%', left: '45%'}}><span>Soccer</span></div>
+          <div className={styles.mapDot} style={{top: '30%', left: '75%'}}><span>NFL</span></div>
+          <div className={styles.mapDot} style={{top: '55%', left: '85%'}}><span>MMA</span></div>
+          
+          {/* Stats overlay */}
           <div className={styles.mapOverlay}>
             <div className={styles.statFloat}>
               <span className={styles.label}>Active Markets</span>

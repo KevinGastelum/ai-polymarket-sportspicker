@@ -5,6 +5,11 @@
   background-color: var(--bg-app);
 }
 
+/* Mobile Overlay */
+.overlay {
+  display: none;
+}
+
 /* Sidebar Styles */
 .sidebar {
   width: var(--sidebar-width);
@@ -18,14 +23,29 @@
   display: flex;
   flex-direction: column;
   z-index: 50;
+  transition: transform 0.3s ease;
+}
+
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.closeBtn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0.5rem;
 }
 
 .logoContainer {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 3rem;
-  padding-left: 0.5rem;
 }
 
 .logoIcon {
@@ -93,11 +113,13 @@
   align-items: center;
   justify-content: center;
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .userInfo {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .userName {
@@ -108,7 +130,7 @@
 
 .userBalance {
   font-size: 0.75rem;
-  color: var(--neon-green);
+  color: var(--neon-lime);
   font-family: 'JetBrains Mono', monospace;
 }
 
@@ -127,13 +149,22 @@
   padding: 0 2rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 1rem;
   position: sticky;
   top: 0;
   z-index: 40;
   background: rgba(15, 17, 21, 0.8);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-subtle);
+}
+
+.menuBtn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 0.5rem;
 }
 
 .searchBar {
@@ -143,7 +174,8 @@
   background: var(--bg-card);
   padding: 0.625rem 1rem;
   border-radius: 12px;
-  width: 320px;
+  flex: 1;
+  max-width: 400px;
   border: 1px solid transparent;
   transition: all 0.2s;
 }
@@ -155,6 +187,7 @@
 
 .searchBar svg {
   color: var(--text-tertiary);
+  flex-shrink: 0;
 }
 
 .searchBar input {
@@ -173,28 +206,150 @@
 .headerActions {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
+  margin-left: auto;
+}
+
+.notificationBtn {
+  padding: 0.5rem 0.75rem !important;
+  font-size: 1.1rem;
+}
+
+.depositBtn {
+  white-space: nowrap;
+}
+
+.depositIcon {
+  display: none;
 }
 
 .content {
   padding: 2rem;
   flex: 1;
+  padding-bottom: 100px; /* Space for mobile nav */
 }
 
-/* Responsive */
+/* Mobile Bottom Navigation */
+.mobileNav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: var(--bg-sidebar);
+  border-top: 1px solid var(--border-subtle);
+  z-index: 100;
+  padding: 0.5rem 1rem;
+}
+
+.mobileNavItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  color: var(--text-tertiary);
+  text-decoration: none;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.5rem;
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.mobileNavItem.active {
+  color: var(--neon-lime);
+}
+
+.mobileNavItem svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Responsive - Tablet */
 @media (max-width: 1024px) {
   .searchBar {
-    width: 240px;
+    max-width: 280px;
   }
 }
 
+/* Responsive - Mobile */
 @media (max-width: 768px) {
+  /* Show mobile elements */
+  .menuBtn {
+    display: flex;
+  }
+  
+  .mobileNav {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 45;
+    backdrop-filter: blur(4px);
+  }
+  
+  .closeBtn {
+    display: flex;
+  }
+  
+  /* Hide sidebar by default on mobile */
   .sidebar {
     transform: translateX(-100%);
-    transition: transform 0.3s;
+  }
+  
+  .sidebarOpen {
+    transform: translateX(0);
   }
   
   .mainWrapper {
     margin-left: 0;
+  }
+  
+  /* Header adjustments */
+  .header {
+    padding: 0 1rem;
+  }
+  
+  .searchBar {
+    max-width: none;
+    flex: 1;
+  }
+  
+  .depositText {
+    display: none;
+  }
+  
+  .depositIcon {
+    display: inline;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .depositBtn {
+    padding: 0.5rem 0.75rem !important;
+    min-width: 40px;
+  }
+  
+  .content {
+    padding: 1rem;
+    padding-bottom: 90px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 400px) {
+  .searchBar {
+    display: none;
+  }
+  
+  .header {
+    justify-content: space-between;
   }
 }
