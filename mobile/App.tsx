@@ -42,6 +42,7 @@ import { usePredictions } from './hooks/usePredictions';
 import { AuthScreen } from './components/AuthScreen';
 import { PredictionCard } from './components/PredictionCard';
 import { AccuracyStats } from './components/AccuracyStats';
+import { HistoryScreen } from './components/HistoryScreen';
 
 // Enable LayoutAnimation on Android
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -305,16 +306,7 @@ function MarketCard({ market, onPress }: { market: SportMarket; onPress: (m: Spo
   );
 }
 
-import { HistoryScreen } from './components/HistoryScreen';
 
-// ... (other imports remain, remove PortfolioScreen definition if it's replaced)
-
-// Update renderContent to use HistoryScreen
-    if (activeTab === 'portfolio') {
-      return (
-        <HistoryScreen />
-      );
-    }
 
 // Settings Screen Component
 function SettingsScreen({ 
