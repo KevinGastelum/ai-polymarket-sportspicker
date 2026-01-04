@@ -5,6 +5,13 @@ python-dotenv
 pytest
 requests
 
+# Data Science & ML
+pandas
+numpy
+matplotlib
+scikit-learn
+xgboost
+
 # MCP (Model Context Protocol) Integration
 # Install with: pip install 'mcp[cli]'
 # Or for just the core library: pip install mcp

@@ -1,0 +1,151 @@
+.container {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 360px;
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: linear-gradient(145deg, #1a1a2e, #16162a);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 1rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  animation: slideIn 0.3s ease forwards;
+  pointer-events: all;
+  position: relative;
+  overflow: hidden;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.toast.prediction {
+  border-color: rgba(139, 92, 246, 0.4);
+  background: linear-gradient(145deg, rgba(139, 92, 246, 0.15), #16162a);
+}
+
+.toast.success {
+  border-color: rgba(74, 222, 128, 0.4);
+  background: linear-gradient(145deg, rgba(74, 222, 128, 0.1), #16162a);
+}
+
+.toast.error {
+  border-color: rgba(248, 113, 113, 0.4);
+  background: linear-gradient(145deg, rgba(248, 113, 113, 0.1), #16162a);
+}
+
+.toast.update {
+  border-color: rgba(96, 165, 250, 0.4);
+  background: linear-gradient(145deg, rgba(96, 165, 250, 0.1), #16162a);
+}
+
+.icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.15rem;
+}
+
+.message {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+}
+
+.dismiss {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  font-size: 0.75rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.dismiss:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.progressBar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.progress {
+  height: 100%;
+  background: var(--neon-lime, #c8ff00);
+  animation: countdown 5s linear forwards;
+}
+
+.prediction .progress {
+  background: #8b5cf6;
+}
+
+.success .progress {
+  background: #4ade80;
+}
+
+.error .progress {
+  background: #f87171;
+}
+
+.update .progress {
+  background: #60a5fa;
+}
+
+@keyframes countdown {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+    left: 1rem;
+    right: 1rem;
+    max-width: none;
+  }
+}

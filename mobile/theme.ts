@@ -87,3 +87,14 @@ export const getSportEmoji = (sport: string): string => {
 export const formatConfidence = (price: number): string => {
   return `${(price * 100).toFixed(1)}%`;
 };
+
+// Format volume/currency as compact string (e.g., $8.3M)
+export const formatVolume = (amount: number): string => {
+  if (amount >= 1000000) {
+    return `$${(amount / 1000000).toFixed(1)}M`;
+  } else if (amount >= 1000) {
+    return `$${(amount / 1000).toFixed(1)}K`;
+  } else {
+    return `$${amount.toFixed(0)}`;
+  }
+};

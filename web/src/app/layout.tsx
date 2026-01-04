@@ -1,8 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, createContext, useContext, ReactNode } from "react";
 import "./globals.css";
 import styles from "./layout.module.css";
+import { useAuth } from "@/hooks/useAuth";
+import { AuthModal } from "@/components/AuthModal";
+import { LiveToast } from "@/components/LiveToast";
+
+// Navigation Context
+type TabType = 'dashboard' | 'markets' | 'portfolio' | 'settings';
+const TabContext = createContext<{
+  activeTab: TabType;
+  setActiveTab: (tab: TabType) => void;
+}>({ activeTab: 'dashboard', setActiveTab: () => {} });
+
+export const useTab = () => useContext(TabContext);
 
 // SVG Icons
 const Icons = {
@@ -58,114 +70,174 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabType>('dashboard');
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+  
+  // Auth state
+  const { user, isAuthenticated, loading: authLoading, signIn, signUp, signOut } = useAuth();
+
+  const handleTabClick = (tab: TabType) => {
+    setActiveTab(tab);
+    setSidebarOpen(false);
+  };
 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={styles.body} suppressHydrationWarning>
-        {/* Mobile Overlay */}
-        {sidebarOpen && (
-          <div 
-            className={styles.overlay} 
-            onClick={() => setSidebarOpen(false)}
-          />
-        )}
-
-        {/* Sidebar */}
-        <aside className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
-          <div className={styles.sidebarHeader}>
-            <div className={styles.logoContainer}>
-              <span className={styles.logoIcon}>⚡</span>
-              <span className={styles.logoText}>PolyPick</span>
-            </div>
-            <button 
-              className={styles.closeBtn}
+        <TabContext.Provider value={{ activeTab, setActiveTab }}>
+          {/* Mobile Overlay */}
+          {sidebarOpen && (
+            <div 
+              className={styles.overlay} 
               onClick={() => setSidebarOpen(false)}
-            >
-              <Icons.Close />
-            </button>
+            />
+          )}
+
+          {/* Sidebar */}
+          <aside className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ''}`}>
+            <div className={styles.sidebarHeader}>
+              <div className={styles.logoContainer}>
+                <span className={styles.logoIcon}>⚡</span>
+                <span className={styles.logoText}>PolyPick</span>
+              </div>
+              <button 
+                className={styles.closeBtn}
+                onClick={() => setSidebarOpen(false)}
+              >
+                <Icons.Close />
+              </button>
+            </div>
+
+            <nav className={styles.nav}>
+              <button 
+                onClick={() => handleTabClick('dashboard')}
+                className={`${styles.navItem} ${activeTab === 'dashboard' ? styles.active : ''}`}
+              >
+                <Icons.Dashboard />
+                <span>Dashboard</span>
+              </button>
+              <button 
+                onClick={() => handleTabClick('markets')}
+                className={`${styles.navItem} ${activeTab === 'markets' ? styles.active : ''}`}
+              >
+                <Icons.Predictions />
+                <span>Live Markets</span>
+              </button>
+              <button 
+                onClick={() => handleTabClick('portfolio')}
+                className={`${styles.navItem} ${activeTab === 'portfolio' ? styles.active : ''}`}
+              >
+                <Icons.Wallet />
+                <span>Portfolio</span>
+              </button>
+              <button 
+                onClick={() => handleTabClick('settings')}
+                className={`${styles.navItem} ${activeTab === 'settings' ? styles.active : ''}`}
+              >
+                <Icons.Settings />
+                <span>Settings</span>
+              </button>
+            </nav>
+
+            <div className={styles.userProfile}>
+              {isAuthenticated ? (
+                <>
+                  <div className={styles.avatar}>{user?.email?.[0]?.toUpperCase() || 'U'}</div>
+                  <div className={styles.userInfo}>
+                    <span className={styles.userName}>{user?.email?.split('@')[0] || 'User'}</span>
+                    <button onClick={signOut} className={styles.logoutLink}>Sign Out</button>
+                  </div>
+                </>
+              ) : (
+                <button onClick={() => setAuthModalOpen(true)} className={styles.loginBtn}>
+                  Sign In
+                </button>
+              )}
+            </div>
+          </aside>
+
+          {/* Main Content Area */}
+          <div className={styles.mainWrapper}>
+            {/* Header */}
+            <header className={styles.header}>
+              <button 
+                className={styles.menuBtn}
+                onClick={() => setSidebarOpen(true)}
+              >
+                <Icons.Menu />
+              </button>
+
+              <div className={styles.searchBar}>
+                <Icons.Search />
+                <input type="text" placeholder="Search markets..." />
+              </div>
+              
+              <div className={styles.headerActions}>
+                <button className={`btn-glass ${styles.notificationBtn}`}>
+                  <span>🔔</span>
+                </button>
+                {isAuthenticated ? (
+                  <button className={`btn-glass ${styles.depositBtn}`} onClick={signOut}>
+                    <span className={styles.depositText}>Sign Out</span>
+                  </button>
+                ) : (
+                  <button className={`btn-neon ${styles.depositBtn}`} onClick={() => setAuthModalOpen(true)}>
+                    <span className={styles.depositText}>Sign In</span>
+                    <span className={styles.depositIcon}>→</span>
+                  </button>
+                )}
+              </div>
+            </header>
+
+            {/* Page Content */}
+            <main className={styles.content}>
+              {children}
+            </main>
           </div>
 
-          <nav className={styles.nav}>
-            <a href="#" className={`${styles.navItem} ${styles.active}`}>
+          {/* Mobile Bottom Navigation */}
+          <nav className={styles.mobileNav}>
+            <button 
+              onClick={() => handleTabClick('dashboard')}
+              className={`${styles.mobileNavItem} ${activeTab === 'dashboard' ? styles.active : ''}`}
+            >
               <Icons.Dashboard />
-              <span>Dashboard</span>
-            </a>
-            <a href="#predictions" className={styles.navItem}>
+              <span>Home</span>
+            </button>
+            <button 
+              onClick={() => handleTabClick('markets')}
+              className={`${styles.mobileNavItem} ${activeTab === 'markets' ? styles.active : ''}`}
+            >
               <Icons.Predictions />
-              <span>Live Markets</span>
-            </a>
-            <a href="#wallet" className={styles.navItem}>
+              <span>Markets</span>
+            </button>
+            <button 
+              onClick={() => handleTabClick('portfolio')}
+              className={`${styles.mobileNavItem} ${activeTab === 'portfolio' ? styles.active : ''}`}
+            >
               <Icons.Wallet />
               <span>Portfolio</span>
-            </a>
-            <a href="#settings" className={styles.navItem}>
+            </button>
+            <button 
+              onClick={() => handleTabClick('settings')}
+              className={`${styles.mobileNavItem} ${activeTab === 'settings' ? styles.active : ''}`}
+            >
               <Icons.Settings />
               <span>Settings</span>
-            </a>
-          </nav>
-
-          <div className={styles.userProfile}>
-            <div className={styles.avatar}>U</div>
-            <div className={styles.userInfo}>
-              <span className={styles.userName}>CryptoWhale</span>
-              <span className={styles.userBalance}>$4,250.00</span>
-            </div>
-          </div>
-        </aside>
-
-        {/* Main Content Area */}
-        <div className={styles.mainWrapper}>
-          {/* Header */}
-          <header className={styles.header}>
-            <button 
-              className={styles.menuBtn}
-              onClick={() => setSidebarOpen(true)}
-            >
-              <Icons.Menu />
             </button>
-
-            <div className={styles.searchBar}>
-              <Icons.Search />
-              <input type="text" placeholder="Search markets..." />
-            </div>
-            
-            <div className={styles.headerActions}>
-              <button className={`btn-glass ${styles.notificationBtn}`}>
-                <span>🔔</span>
-              </button>
-              <button className={`btn-neon ${styles.depositBtn}`}>
-                <span className={styles.depositText}>+ Deposit</span>
-                <span className={styles.depositIcon}>+</span>
-              </button>
-            </div>
-          </header>
-
-          {/* Page Content */}
-          <main className={styles.content}>
-            {children}
-          </main>
-        </div>
-
-        {/* Mobile Bottom Navigation */}
-        <nav className={styles.mobileNav}>
-          <a href="#" className={`${styles.mobileNavItem} ${styles.active}`}>
-            <Icons.Dashboard />
-            <span>Home</span>
-          </a>
-          <a href="#predictions" className={styles.mobileNavItem}>
-            <Icons.Predictions />
-            <span>Markets</span>
-          </a>
-          <a href="#wallet" className={styles.mobileNavItem}>
-            <Icons.Wallet />
-            <span>Portfolio</span>
-          </a>
-          <a href="#settings" className={styles.mobileNavItem}>
-            <Icons.Settings />
-            <span>Settings</span>
-          </a>
-        </nav>
+          </nav>
+          
+          {/* Auth Modal */}
+          <AuthModal 
+            isOpen={authModalOpen} 
+            onClose={() => setAuthModalOpen(false)}
+            onSignIn={signIn}
+            onSignUp={signUp}
+          />
+          <LiveToast />
+        </TabContext.Provider>
       </body>
     </html>
   );
 }
+

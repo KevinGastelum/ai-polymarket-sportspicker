@@ -83,7 +83,8 @@ SELECT
     sport,
     event_name,
     predicted_outcome,
-    ROUND(hybrid_confidence * 100, 1) as confidence_pct,
+    -- Fix: Cast to numeric before rounding
+    ROUND((hybrid_confidence * 100)::numeric, 1) as confidence_pct,
     actual_outcome,
     is_correct,
     created_at
@@ -102,3 +103,30 @@ SELECT
     ROUND(correct_predictions::numeric / NULLIF(total_predictions, 0) * 100, 2) as overall_accuracy_pct,
     updated_at
 FROM model_metrics;
+
+-- ============================================
+-- USER PROFILES TABLE (Supabase Auth)
+-- ============================================
+CREATE TABLE IF NOT EXISTS user_profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id),
+    email TEXT,
+    is_pro BOOLEAN DEFAULT FALSE,
+    subscription_tier TEXT DEFAULT 'free',
+    subscription_id TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Function to handle new user creation
+CREATE OR REPLACE FUNCTION handle_new_user() 
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO public.user_profiles (id, email)
+  VALUES (new.id, new.email);
+  RETURN new;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Trigger to automatically create profile on signup
+CREATE OR REPLACE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE PROCEDURE handle_new_user();

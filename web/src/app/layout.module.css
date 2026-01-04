@@ -353,3 +353,35 @@
     justify-content: space-between;
   }
 }
+
+/* Auth Buttons */
+.loginBtn {
+  width: 100%;
+  background: var(--neon-lime);
+  color: #000;
+  border: none;
+  border-radius: 100px;
+  padding: 0.875rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.loginBtn:hover {
+  opacity: 0.9;
+}
+
+.logoutLink {
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+}
+
+.logoutLink:hover {
+  color: var(--neon-pink);
+}

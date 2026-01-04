@@ -32,7 +32,7 @@ export function useMarkets(options: UseMarketsOptions = {}) {
     sport = 'all',
     limit = 50,
     autoRefresh = true,
-    refreshInterval = 60000, // 1 minute default
+    refreshInterval = Number(process.env.NEXT_PUBLIC_MARKET_REFRESH_INTERVAL) || 60000, // Default to env or 1 minute
   } = options;
 
   const [markets, setMarkets] = useState<SportMarket[]>([]);

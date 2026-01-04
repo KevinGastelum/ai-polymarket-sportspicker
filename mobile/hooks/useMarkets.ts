@@ -18,10 +18,14 @@ interface MarketsResponse {
   error?: string;
 }
 
-// API Base URL - change this to your deployed URL or localhost for development
+import { Platform } from 'react-native';
+
+// API Base URL
 const API_BASE_URL = __DEV__ 
-  ? 'http://192.168.1.68:3000' // Local network IP for development
-  : 'https://your-vercel-app.vercel.app'; // Production URL
+  ? Platform.OS === 'web' 
+    ? 'http://localhost:3000' 
+    : 'http://192.168.1.68:3000'
+  : 'https://your-vercel-app.vercel.app';
 
 interface UseMarketsOptions {
   sport?: string;
