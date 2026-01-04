@@ -17,10 +17,15 @@ export function PredictionCard({ prediction, onPress }: PredictionCardProps) {
       onPress={onPress}
       activeOpacity={0.8}
     >
-      {/* Sport Badge */}
-      <View style={styles.sportBadge}>
-        <Text style={styles.sportEmoji}>{getSportEmoji(prediction.sport)}</Text>
-        <Text style={styles.sportName}>{prediction.sport.toUpperCase()}</Text>
+      {/* Sport Badge & Date */}
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+        <View style={styles.sportBadge}>
+          <Text style={styles.sportEmoji}>{getSportEmoji(prediction.sport)}</Text>
+          <Text style={styles.sportName}>{prediction.sport.toUpperCase()}</Text>
+        </View>
+        <Text style={{ color: 'rgba(255,255,255,0.4)', fontSize: 10 }}>
+          {new Date(prediction.created_at).toLocaleDateString()}
+        </Text>
       </View>
 
       {/* Event Name */}

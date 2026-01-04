@@ -28,7 +28,7 @@ export function PredictionsHistoryPage() {
 
   // Calculate Portfolio Data
   const INITIAL_BALANCE = 1000;
-  const BET_AMOUNT = 50;
+  const BET_AMOUNT = 10;
   
   const portfolioData = React.useMemo(() => {
     let balance = INITIAL_BALANCE;

@@ -278,6 +278,9 @@ function MarketCard({ market, onPress }: { market: SportMarket; onPress: (m: Spo
         <Text style={styles.marketQuestion} numberOfLines={2}>
           {market.question}
         </Text>
+        <Text style={{ color: theme.colors.textTertiary, fontSize: 12, marginBottom: 8 }}>
+          {new Date(market.startDate).toLocaleDateString()} • Vol: {formatVolume(market.volume)}
+        </Text>
         
         <View style={styles.predictionRow}>
           <View style={styles.predictionBadge}>

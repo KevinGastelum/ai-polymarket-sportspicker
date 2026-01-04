@@ -11,14 +11,13 @@ import { MarketDetailModal } from "@/components/MarketDetailModal";
 import { SearchBar } from "@/components/SearchBar";
 
 // Sport filter options
-const SPORT_FILTERS = [
-  { key: 'all', label: 'All Sports' },
-  { key: 'nfl', label: '🏈 NFL' },
-  { key: 'nba', label: '🏀 NBA' },
-  { key: 'nhl', label: '🏒 NHL' },
-  { key: 'mma', label: '🥊 MMA' },
-  { key: 'soccer', label: '⚽ Soccer' },
-];
+// Sport filter options (mapped from shared lib to match existing UI structure)
+import { getSportCategories } from "@/lib/polymarket-sports";
+
+const SPORT_FILTERS = getSportCategories().map(cat => ({
+  key: cat.id,
+  label: `${cat.icon} ${cat.label}`
+}));
 
 // Portfolio Screen Component
 function PortfolioView() {

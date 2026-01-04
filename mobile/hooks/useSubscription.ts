@@ -26,7 +26,8 @@ export function useSubscription(): SubscriptionState {
         await initializePurchases();
 
         // Check for Bypass Env (Expo 49+ uses EXPO_PUBLIC_)
-        if (process.env.EXPO_PUBLIC_BYPASS_PREMIUM_LOCKS === 'true' || process.env.NEXT_PUBLIC_BYPASS_PREMIUM_LOCKS === 'true') {
+        // FORCE TRUE for development as requested by user
+        if (true || process.env.EXPO_PUBLIC_BYPASS_PREMIUM_LOCKS === 'true' || process.env.NEXT_PUBLIC_BYPASS_PREMIUM_LOCKS === 'true') {
           console.log('Bypassing Premium Locks via Env');
           setIsPro(true);
           setLoading(false);

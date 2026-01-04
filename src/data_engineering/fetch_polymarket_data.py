@@ -120,13 +120,14 @@ class MarketFetcher:
             game_start_dt = datetime.fromisoformat(start_date_iso.replace('Z', '+00:00'))
             
             markets = event.get('markets', [])
-            # print(f"DEBUG: Processing event '{title}' with {len(markets)} markets")
+            print(f"DEBUG: Processing event '{title}' with {len(markets)} markets")
 
             # Process ALL markets in the event, not just one "Winner" market
             for market in markets:
-                if not market.get('closed'): 
-                    # print(f"DEBUG: Market '{market.get('question')}' not closed")
-                    continue
+                # Trust event-level closed status or ignore individual market status to avoid false negatives
+                # if not market.get('closed'): 
+                #     print(f"DEBUG: Market '{market.get('question')}' not closed")
+                #     continue
 
                 market_title = market.get('question') or title
                 market_desc = market.get('description') or ''

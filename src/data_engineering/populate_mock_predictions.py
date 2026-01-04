@@ -70,18 +70,32 @@ def populate_predictions():
             # We decide to bet
             is_correct = bool(row.get('actual_result_binary', 0))
             
+            
+            # Map CSV columns to DB columns
+            # CSV columns from fetch_polymarket_data.py: 
+            # id,event_id,sport,market_type,status,title,question,description,outcomes,volume,liquidity,startDate,endDate
+            
+            # Outcome logic: Pick one random outcome for now
+            possible_outcomes = eval(row.get('outcomes', '[]')) if isinstance(row.get('outcomes'), str) else []
+            if not possible_outcomes:
+                possible_outcomes = ['Yes', 'No']
+            
+            picked_outcome = possible_outcomes[0] # Naive pick
+            
+            created_at = row.get('startDate') or row.get('game_date') or datetime.now().isoformat()
+            
             pred = {
-                "market_id": row.get('event_id', str(uuid.uuid4())), # Use event_id as market_id for now
+                "market_id": row.get('id', str(uuid.uuid4())), 
                 "sport": row.get('sport', 'unknown'),
-                "event_name": f"Event {row.get('event_id')[:8]}", # Placeholder if no name
-                "predicted_outcome": row.get('outcome_name', 'Yes'),
+                "event_name": row.get('title') or f"Event {row.get('event_id')}",
+                "predicted_outcome": f"{picked_outcome} ({row.get('question')})",
                 "historical_confidence": float(model_conf),
                 "sentiment_confidence": float(model_conf - 0.05),
                 "hybrid_confidence": float(model_conf),
-                "actual_outcome": row.get('outcome_name', 'Yes') if is_correct else "Other",
-                "is_correct": is_correct,
-                "created_at": row.get('game_date'),
-                "resolved_at": row.get('game_date') # Assumed resolved same time for simplicity
+                "actual_outcome": "Unknown", # Live markets don't have results yet
+                "is_correct": None, # Pending
+                "created_at": created_at,
+                "resolved_at": row.get('endDate')
             }
             predictions_to_insert.append(pred)
 

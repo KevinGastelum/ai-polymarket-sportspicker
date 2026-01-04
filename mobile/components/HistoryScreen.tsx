@@ -22,7 +22,7 @@ export function HistoryScreen() {
 
   // Portfolio Calculation (Simplified for Mobile)
   const INITIAL_BALANCE = 1000;
-  const BET_AMOUNT = 50;
+  const BET_AMOUNT = 10;
   
   const portfolioStats = React.useMemo(() => {
     let balance = INITIAL_BALANCE;

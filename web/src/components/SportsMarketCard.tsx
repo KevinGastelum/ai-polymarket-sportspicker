@@ -67,8 +67,10 @@ export function SportsMarketCard({ market, onClick }: SportsMarketCardProps) {
 
       {/* Footer */}
       <div className="card-footer">
-        <span className="volume">Vol: {formatVolume(market.volume)}</span>
-        <span className="end-date">
+          <span className="volume">
+            Vol: {formatVolume(market.volume)} {market.startDate && `• ${new Date(market.startDate).toLocaleDateString()}`}
+          </span>
+          <span className="end-date">
           {isLive ? 'In Progress' : new Date(market.endDate).toLocaleDateString()}
         </span>
       </div>
