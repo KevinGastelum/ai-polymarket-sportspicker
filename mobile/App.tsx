@@ -305,71 +305,16 @@ function MarketCard({ market, onPress }: { market: SportMarket; onPress: (m: Spo
   );
 }
 
-function PortfolioScreen({ isGuest, onSignIn }: { isGuest: boolean; onSignIn: () => void }) {
-  if (isGuest) {
-    return (
-      <View style={[styles.contentContainer, { justifyContent: 'center', alignItems: 'center', padding: 32 }]}>
-        <Briefcase size={64} color={theme.colors.textTertiary} style={{ marginBottom: 24 }} />
-        <Text style={styles.sectionTitle}>Portfolio Tracking</Text>
-        <Text style={{ 
-          color: theme.colors.textSecondary, 
-          textAlign: 'center', 
-          marginBottom: 32,
-          lineHeight: 24 
-        }}>
-          Sign in to track your bets, view P&L, and manage your portfolio positions.
-        </Text>
-        <TouchableOpacity 
-          style={styles.retryBtn} 
-          onPress={onSignIn}
-        >
-          <Text style={styles.retryText}>Sign In or Sign Up</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+import { HistoryScreen } from './components/HistoryScreen';
 
-  // Mock Portfolio Data
-  const portfolioItems = [
-    { id: '1', question: 'Chiefs vs Ravens: Winner?', pick: 'Chiefs', amount: 50, pnl: +12.50, status: 'Active' },
-    { id: '2', question: 'Lakers make playoffs?', pick: 'YES', amount: 100, pnl: -5.00, status: 'Active' },
-    { id: '3', question: 'Super Bowl 2025 Winner', pick: '49ers', amount: 25, pnl: +45.00, status: 'Active' },
-  ];
+// ... (other imports remain, remove PortfolioScreen definition if it's replaced)
 
-  return (
-    <ScrollView style={styles.contentContainer} contentContainerStyle={styles.scrollContent}>
-      <View style={styles.portfolioHeader}>
-        <Text style={styles.portfolioLabel}>Total Value</Text>
-        <Text style={styles.portfolioValue}>$1,245.50</Text>
-        <View style={styles.pnlBadge}>
-          <TrendingUp size={16} color="#000" />
-          <Text style={styles.pnlText}>+12.4% ($138.20)</Text>
-        </View>
-      </View>
-
-      <Text style={styles.sectionTitle}>Active Positions</Text>
-      
-      {portfolioItems.map(item => (
-        <LinearGradient
-          key={item.id}
-          colors={['rgba(28, 31, 38, 1)', 'rgba(35, 39, 48, 1)']}
-          style={styles.portfolioCard}
-        >
-          <View style={styles.portfolioRow}>
-            <Text style={styles.portfolioQuestion} numberOfLines={1}>{item.question}</Text>
-            <Text style={styles.portfolioAmount}>${item.amount}</Text>
-          </View>
-          <View style={styles.portfolioRow}>
-            <Text style={styles.portfolioPick}>Pick: <Text style={{color: theme.colors.textPrimary}}>{item.pick}</Text></Text>
-            <Text style={[styles.portfolioPnl, item.pnl >= 0 ? styles.textGreen : styles.textRed]}>
-              {item.pnl >= 0 ? '+' : ''}{item.pnl.toFixed(2)}
-            </Text>
-          </View>
-        </LinearGradient>
-      ))}
-    </ScrollView>
-  );
-}
+// Update renderContent to use HistoryScreen
+    if (activeTab === 'portfolio') {
+      return (
+        <HistoryScreen />
+      );
+    }
 
 // Settings Screen Component
 function SettingsScreen({ 
@@ -745,10 +690,7 @@ export default function App() {
   const renderContent = () => {
     if (activeTab === 'portfolio') {
       return (
-        <PortfolioScreen 
-          isGuest={isGuest} 
-          onSignIn={() => signOut()} // signOut resets guest state -> returns to auth screen
-        />
+        <HistoryScreen />
       );
     }
 
